@@ -1,0 +1,26 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace E_SportGamingScore.Infrastructure.Migrations
+{
+    public partial class asdqdqsd : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<bool>(
+                name: "IsLive",
+                table: "Events",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "IsLive",
+                table: "Events");
+        }
+    }
+}

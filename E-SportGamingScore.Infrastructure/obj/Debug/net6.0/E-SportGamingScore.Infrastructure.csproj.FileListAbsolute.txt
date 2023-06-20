@@ -1,0 +1,14 @@
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.deps.json
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.runtimeconfig.json
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.dll
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.pdb
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.csproj.AssemblyReference.cache
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.AssemblyInfoInputs.cache
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.AssemblyInfo.cs
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.dll
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\refint\E-SportGamingScore.Infrastructure.dll
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.pdb
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.genruntimeconfig.cache
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\ref\E-SportGamingScore.Infrastructure.dll
