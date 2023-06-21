@@ -1,11 +1,14 @@
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\bin\Debug\net6.0\E-SportGamingScore.Core.deps.json
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\bin\Debug\net6.0\E-SportGamingScore.Core.dll
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\bin\Debug\net6.0\E-SportGamingScore.Core.pdb
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.dll
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.pdb
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.csproj.AssemblyReference.cache
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.GeneratedMSBuildEditorConfig.editorconfig
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.AssemblyInfoInputs.cache
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.AssemblyInfo.cs
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.csproj.CoreCompileInputs.cache
+D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.csproj.CopyComplete
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.dll
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\refint\E-SportGamingScore.Core.dll
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Core\obj\Debug\net6.0\E-SportGamingScore.Core.pdb

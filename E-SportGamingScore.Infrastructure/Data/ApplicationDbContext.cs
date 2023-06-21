@@ -1,6 +1,8 @@
 ﻿using E_SportGamingScore.Infrastructure.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_SportGamingScore.Infrastructure.Data
 {

@@ -2,7 +2,42 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add XML File</title>
+</head>
+<body>
+    <h1>Add XML File</h1>
+    <form action="/process-xml" method="post" enctype="multipart/form-data">
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html>
+
+<a asp-action="AllMatchesFor24H" asp-controller="Match">All fo 24H</a>
+
+<h4><p id="countDisplay"></p></h4>
+
+
+
+<script>
+    function countAndVisualize() {
+        let count = 1;
+        const countDisplay = document.getElementById("countDisplay");
+
+        setInterval(() => {
+            countDisplay.textContent = count;
+            count++;
+
+            if (count > 60) {
+                count = 1;
+            }
+        }, 1000);
+    }
+
+    countAndVisualize();
+</script>

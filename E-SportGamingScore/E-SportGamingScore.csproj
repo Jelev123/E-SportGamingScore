@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\E-SportGamingScore.Core\E-SportGamingScore.Core.csproj" />
     <ProjectReference Include="..\E-SportGamingScore.Infrastructure\E-SportGamingScore.Infrastructure.csproj" />
   </ItemGroup>
 

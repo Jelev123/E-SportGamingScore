@@ -1,0 +1,44 @@
+﻿@using E_SportGamingScore.Core.ViewModels.Matches;
+@model IEnumerable<AllMatchesFor24H>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Bet Name</th>
+            <th scope="col">Match Type</th>
+            <th scope="col">Match Name</th>
+            <th scope="col">Value</th>
+            <th scope="col">SpecialBetValue</th>
+            <th scope="col">Is a live match</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                <tr>
+            @foreach (var ods in item.Odds)
+            {
+
+                    <th scope="row">@item.BetNames</th>
+                    <td>@item.MatchType</td>
+
+                    <td><a class="btn" btn asp-action="GetById" asp-controller="Match" asp-route-matchId="@item.MatchId">@item.MatchName</a></td>
+                    <td>@ods.OddValue</td>
+                    <td>@ods.SpecialBetValue</td>
+                    @if (item.IsBerAlive == false)
+                    {
+                        <td>No</td>
+
+                    }
+                    @if (item.IsBerAlive == true)
+                    {
+                        <td>Yes</td>
+
+                    }
+            }
+                </tr>
+
+        }
+
+    </tbody>
+</table>

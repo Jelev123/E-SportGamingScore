@@ -1,7 +1,10 @@
-﻿namespace E_SportGamingScore.Infrastructure.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace E_SportGamingScore.Infrastructure.Models
 {
     public class Match
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int MatchId { get; set; }
 
         public string MatchName { get; set; }
