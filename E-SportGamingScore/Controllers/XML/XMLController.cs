@@ -5,9 +5,9 @@ namespace E_SportGamingScore.Controllers.XML
 {
     public class XMLController : Controller
     {
-        private readonly IXML xmlService;
+        private readonly IXmlService xmlService;
 
-        public XMLController(IXML xmlService)
+        public XMLController(IXmlService xmlService)
         {
             this.xmlService = xmlService;
         }
@@ -19,5 +19,6 @@ namespace E_SportGamingScore.Controllers.XML
                 xmlService.ParseAndStoreData();
                 return this.Redirect("/");
         }
+
     }
 }

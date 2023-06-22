@@ -4,36 +4,7 @@
 
 
 
-<div class="table-wrapper-scroll-y my-custom-scrollbar">
 
-    <table class="table table-bordered table-striped mb-0">
-        <thead>
-            <tr>
-                <th scope="col">Match</th>
-                <th scope="col">Bet</th>
-                <th scope="col">Odds</th>
-                <th scope="col">Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                @foreach (var item in Model.BetName)
-                {
-                    <th scope="row">@Model.MatchName</th>
-                    <td>@item.BetName</td>
-
-                    @foreach (var item2 in Model.Ods)
-                    {
-
-                        <td>@item2.OddName</td>
-                        <td>@item2.OddValue</td>
-                    }
-                }
-            </tr>
-        </tbody>
-    </table>
-
-</div>
 
 <!DOCTYPE html>
 <html>
@@ -56,20 +27,22 @@
 </head>
 <body>
     <table>
+        <thead>
+            <td>Match</td>
+            <td>Bet</td>
+            <td>Value</td>
+        </thead>
+        <tbody>
         <tr>
-        @foreach (var item in Model.BetName)
-        {
             <th scope="row">@Model.MatchName</th>
-            <td>@item.BetName</td>
-
             @foreach (var item2 in Model.Ods)
             {
+                <td>@item2.BetName</td>
                 <td>@item2.OddName</td>
                 <td>@item2.OddValue</td>
             }
-        }
         </tr>
-        
+        </tbody>
     </table>
 </body>
 </html>

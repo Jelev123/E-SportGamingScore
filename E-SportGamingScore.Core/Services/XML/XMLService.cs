@@ -1,29 +1,25 @@
-﻿using E_SportGamingScore.Core.Contracts.XML;
+﻿using E_SportGamingScore.Core.Constants;
+using E_SportGamingScore.Core.Contracts.XML;
 using E_SportGamingScore.Infrastructure.Data;
 using E_SportGamingScore.Infrastructure.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 using System.Globalization;
-using System.Xml;
 using System.Xml.Linq;
 
 namespace E_SportGamingScore.Core.Services.XML
 {
-    public class XMLService : IXML
+    public class XMLService : BackgroundService, IXmlService
     {
         private readonly ApplicationDbContext data;
-        
+
         public XMLService(ApplicationDbContext data)
         {
             this.data = data;
-            
         }
 
-        public void ParseAndStoreData()
+        public async Task ParseAndStoreData()
         {
-            //XDocument xmlDoc = XDocument.Parse(xmlData);
-
-            var xmlFilePath = @"C:\Users\User\Desktop\sportsxml.xml";
+            var xmlFilePath = XmlConstants.xmlFilePath;
 
             using (StreamReader reader = new StreamReader(xmlFilePath, detectEncodingFromByteOrderMarks: true))
             {
@@ -128,6 +124,21 @@ namespace E_SportGamingScore.Core.Services.XML
                     data.Sports.Add(sport);
                 }
                 data.SaveChanges();
+            }
+        }
+
+        public async Task Time(CancellationToken stoppingToken)
+        {
+            await this.ExecuteAsync(stoppingToken);
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                ParseAndStoreData();
+                data.SaveChangesAsync();
+                await Task.Delay(1000, stoppingToken);
             }
         }
     }

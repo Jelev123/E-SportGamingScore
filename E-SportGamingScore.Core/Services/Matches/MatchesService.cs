@@ -20,13 +20,10 @@ namespace E_SportGamingScore.Core.Services.Matches
                 .Select(m => new GetMatchById
                 {
                     MatchName = m.MatchName,
-                    BetName = m.Bets.Select(s => new OdsViewModel
-                    {
-                        BetName = s.BetName
-                    }).ToList(),
                     StartDate = m.StartDate,
                     Ods = m.Bets.SelectMany(s => s.Odds).Select(s => new OdsViewModel
                     {
+                        BetName = s.Bet.BetName,
                         OddName = s.Name,
                         OddValue = s.OddValue,
                         SpecialBetValue = s.SpecialBetValue
@@ -57,6 +54,7 @@ namespace E_SportGamingScore.Core.Services.Matches
                 MatchName = b.Match.MatchName,
                 MatchType = b.Match.MatchType,
                 BetNames = b.BetName,
+                MatchStartDate = b.Match.StartDate,
                 Odds = b.Odds.Select(s => new OdsViewModel
                 {
                     OddName = s.Name,

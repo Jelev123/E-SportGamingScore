@@ -8,16 +8,19 @@ namespace E_SportGamingScore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IXML xmlService;
-       
+        private readonly IXmlService xmlService;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, IXmlService xmlService)
         {
             _logger = logger;
+            this.xmlService = xmlService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(CancellationToken stoppingToken)
         {
+            xmlService.Time(stoppingToken);
+            this.ViewData["LoggedMessage"] = "Message logged on the index page.";
             return View();
         }
 
