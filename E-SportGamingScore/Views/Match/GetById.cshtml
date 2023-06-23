@@ -5,44 +5,28 @@
 
 
 
+<form id="oddsForm" method="post" action="/Match/CheckFroChanges">
+    <th scope="row">
+        @Model.MatchName
+    </th>
+    <input type="hidden" name="MatchId" value="@Model.MatchId" /> <!-- Add hidden input field for MatchId -->
+    @for (var i = 0; i < Model.Ods.Count; i++)
+    {
+        var item2 = Model.Ods[i];
+        <td>@item2.BetName</td>
+        <td>@item2.OddName</td>
+        <td>
+            <input type="hidden" name="Ods.Index" value="@i" />
+            <input type="hidden" name="Ods[@i].BetName" value="@item2.BetName" />
+            <input type="hidden" name="Ods[@i].OddName" value="@item2.OddName" />
+            <input type="hidden" name="Ods[@i].OldOddValue" value="@item2.OddValue" />
+            <input type="text" name="Ods[@i].OddValue" value="@item2.OddValue" />
+        </td>
+    }
+    <td>
+        <button type="submit" class="btn">Save</button>
+    </td>
+</form>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Vertical Table</title>
-    <style>
-        table {
-            border-collapse: collapse;
-        }
 
-        th, td {
-            padding: 8px;
-            border: 1px solid black;
-        }
 
-        th {
-            text-align: left;
-        }
-    </style>
-</head>
-<body>
-    <table>
-        <thead>
-            <td>Match</td>
-            <td>Bet</td>
-            <td>Value</td>
-        </thead>
-        <tbody>
-        <tr>
-            <th scope="row">@Model.MatchName</th>
-            @foreach (var item2 in Model.Ods)
-            {
-                <td>@item2.BetName</td>
-                <td>@item2.OddName</td>
-                <td>@item2.OddValue</td>
-            }
-        </tr>
-        </tbody>
-    </table>
-</body>
-</html>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_SportGamingScore.Infrastructure.Migrations
 {
-    public partial class asdqdqsdsdssssdq : Migration
+    public partial class adaa : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,7 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                         column: x => x.SportId,
                         principalTable: "Sports",
                         principalColumn: "SportId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,7 +91,7 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     OddId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OddValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    SpecialBetValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    SpecialBetValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BetId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

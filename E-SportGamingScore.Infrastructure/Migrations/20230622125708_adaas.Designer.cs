@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_SportGamingScore.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230621060456_asdqdqsdsdssssdqs")]
-    partial class asdqdqsdsdssssdqs
+    [Migration("20230622125708_adaas")]
+    partial class adaas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,8 +44,6 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     b.HasIndex("MatchId");
 
                     b.ToTable("Bets");
-
-                    b.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
                 });
 
             modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.Event", b =>
@@ -71,8 +69,6 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     b.HasIndex("SportId");
 
                     b.ToTable("Events");
-
-                    b.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
                 });
 
             modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.Match", b =>
@@ -102,8 +98,6 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     b.HasIndex("EventId");
 
                     b.ToTable("Matches");
-
-                    b.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
                 });
 
             modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.Odd", b =>
@@ -129,13 +123,11 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     b.HasIndex("BetId");
 
                     b.ToTable("Odds");
-
-                    b.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
                 });
 
             modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.Sport", b =>
                 {
-                    b.Property<int?>("SportId")
+                    b.Property<int>("SportId")
                         .HasColumnType("int");
 
                     b.Property<string>("SportName")
@@ -145,8 +137,6 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     b.HasKey("SportId");
 
                     b.ToTable("Sports");
-
-                    b.HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
                 });
 
             modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.Bet", b =>

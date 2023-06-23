@@ -18,13 +18,6 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IXmlService, XMLService>();
 builder.Services.AddTransient<IMatches, MatchesService>();
-builder.Services.AddLogging(logingBiilder =>
-{
-    logingBiilder.AddConsole();
-});
-
-
-
 
 
 var app = builder.Build();

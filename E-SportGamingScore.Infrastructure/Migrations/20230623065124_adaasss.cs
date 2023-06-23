@@ -4,7 +4,7 @@
 
 namespace E_SportGamingScore.Infrastructure.Migrations
 {
-    public partial class asdqdqsdsdssssdqs : Migration
+    public partial class adaasss : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -2,130 +2,196 @@
 using E_SportGamingScore.Core.Contracts.XML;
 using E_SportGamingScore.Infrastructure.Data;
 using E_SportGamingScore.Infrastructure.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Globalization;
-using System.Xml.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace E_SportGamingScore.Core.Services.XML
 {
     public class XMLService : BackgroundService, IXmlService
     {
         private readonly ApplicationDbContext data;
+        private readonly IServiceProvider serviceProvider;
 
-        public XMLService(ApplicationDbContext data)
+        public XMLService(ApplicationDbContext data, IServiceProvider serviceProvider)
         {
             this.data = data;
+            this.serviceProvider = serviceProvider;
         }
 
-        public async Task ParseAndStoreData()
+        public async Task ParseAndStoreData(IServiceProvider serviceProvider)
         {
             var xmlFilePath = XmlConstants.xmlFilePath;
 
-            using (StreamReader reader = new StreamReader(xmlFilePath, detectEncodingFromByteOrderMarks: true))
+            try
             {
-                XDocument xmlDoc = XDocument.Load(reader);
-
-                foreach (XElement sportElement in xmlDoc.Descendants("Sport"))
+                XmlSerializer serializer = new XmlSerializer(typeof(XmlDocument));
+                using (StreamReader reader = new StreamReader(xmlFilePath, detectEncodingFromByteOrderMarks: true))
                 {
-                    var sportName = sportElement.Attribute("Name")?.Value;
-                    var sportIdString = sportElement.Attribute("ID")?.Value;
-                    var sportId = int.Parse(sportIdString);
-                    Sport sport = new Sport
+                    XmlDocument xmlDoc = (XmlDocument)serializer.Deserialize(reader);
+                    XmlNodeList sportNodes = xmlDoc.GetElementsByTagName("Sport");
+
+                    foreach (XmlNode sportNode in sportNodes)
                     {
-                        SportId = sportId,
-                        SportName = sportName,
-                    };
+                        var sportIdString = sportNode.Attributes["ID"].Value;
+                        var sportId = int.Parse(sportIdString);
 
-
-                    foreach (XElement eventElement in sportElement.Elements("Event"))
-                    {
-                        var eventName = eventElement.Attribute("Name")?.Value;
-                        var eventIdString = eventElement.Attribute("ID")?.Value;
-                        var eventId = int.Parse(eventIdString);
-                        var isLiveString = eventElement.Attribute("IsLive")?.Value;
-                        var isLive = bool.Parse(isLiveString);
-                        var categoryIdString = eventElement.Attribute("CategoryID")?.Value;
-                        var categoryId = int.Parse(categoryIdString);
-
-                        Event events = new Event
+                        using (var scope = serviceProvider.CreateScope())
                         {
-                            EventId = eventId,
-                            CategoryId = categoryId,
-                            EventName = eventName,
-                            IsLive = isLive,
-                            Sport = sport,
-                        };
+                            var data = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                        foreach (XElement matchElement in eventElement.Elements("Match"))
-                        {
-                            var matchName = matchElement.Attribute("Name")?.Value;
-                            var matchIdString = matchElement.Attribute("ID")?.Value;
-                            var matchId = int.Parse(matchIdString);
-                            var matchStartDateString = matchElement.Attribute("StartDate")?.Value;
-                            var matchDate = DateTime.Parse(matchStartDateString);
-                            var matchType = matchElement.Attribute("MatchType")?.Value;
+                            var existingSport = data.Sports.FirstOrDefault(s => s.SportId == sportId);
 
-                            Match match = new Match
+                            if (existingSport == null)
                             {
-                                MatchId = matchId,
-                                MatchName = matchName,
-                                MatchType = matchType,
-                                StartDate = matchDate,
-                                EventId = eventId,
-                            };
-
-
-                            foreach (XElement betElement in matchElement.Elements("Bet"))
-                            {
-                                var betName = betElement.Attribute("Name")?.Value;
-                                var betIdString = betElement.Attribute("ID")?.Value;
-                                var betId = int.Parse(betIdString);
-                                var isLiveBet = betElement.Attribute("IsLive")?.Value;
-                                var betIsLive = bool.Parse(isLiveBet);
-
-                                Bet bet = new Bet
+                                Sport sport = new Sport
                                 {
-                                    BetId = betId,
-                                    BetName = betName,
-                                    IsLive = betIsLive,
-                                    MatchId = matchId,
+                                    SportId = sportId,
+                                    SportName = sportNode.Attributes["Name"].Value
                                 };
 
+                                data.Sports.Add(sport);
+                            }
+                            else
+                            {
+                                existingSport.SportName = sportNode.Attributes["Name"].Value;
+                            }
 
-                                foreach (XElement oddElement in betElement.Elements("Odd"))
+                            XmlNodeList eventNodes = sportNode.SelectNodes("Event");
+                            foreach (XmlNode eventNode in eventNodes)
+                            {
+                                var eventIdString = eventNode.Attributes["ID"].Value;
+                                var eventId = int.Parse(eventIdString);
+
+                                var existingEvent = data.Events.FirstOrDefault(e => e.EventId == eventId);
+
+                                if (existingEvent == null)
                                 {
-                                    var oddName = oddElement.Attribute("Name")?.Value;
-                                    var oddIdString = oddElement.Attribute("ID")?.Value;
-                                    var oddId = int.Parse(oddIdString);
-                                    var oddValueString = oddElement.Attribute("Value")?.Value;
-                                    decimal oddValue = decimal.Parse(oddValueString, CultureInfo.InvariantCulture);
-                                    var specialBetValueString = oddElement.Attribute("SpecialBetValue")?.Value;
-                                    decimal? specialBetValue = !string.IsNullOrEmpty(specialBetValueString)
-                                  ? decimal.Parse(specialBetValueString, CultureInfo.InvariantCulture)
-                                  : (decimal?)null;
-
-                                    Odd odd = new Odd
+                                    Event events = new Event
                                     {
-                                        OddId = oddId,
-                                        Name = oddName,
-                                        OddValue = oddValue,
-                                        SpecialBetValue = specialBetValue,
-                                        BetId = betId,
+                                        EventId = eventId,
+                                        EventName = eventNode.Attributes["Name"].Value,
+                                        SportId = sportId
                                     };
 
-                                    bet.Odds.Add(odd);
+                                    data.Events.Add(events);
                                 }
-                                match.Bets.Add(bet);
+                                else
+                                {
+                                    existingEvent.EventName = eventNode.Attributes["Name"].Value;
+                                    existingEvent.SportId = sportId;
+                                }
+
+                                XmlNodeList matchNodes = eventNode.SelectNodes("Match");
+                                foreach (XmlNode matchNode in matchNodes)
+                                {
+                                    var matchIdString = matchNode.Attributes["ID"].Value;
+                                    var matchId = int.Parse(matchIdString);
+
+                                    var existingMatch = data.Matches.FirstOrDefault(m => m.MatchId == matchId);
+
+                                    if (existingMatch == null)
+                                    {
+                                        Match match = new Match
+                                        {
+                                            MatchId = matchId,
+                                            MatchName = matchNode.Attributes["Name"].Value,
+                                            MatchType = matchNode.Attributes["MatchType"].Value,
+                                            StartDate = DateTime.Parse(matchNode.Attributes["StartDate"].Value),
+                                            EventId = eventId
+                                        };
+
+                                        data.Matches.Add(match);
+                                    }
+                                    else
+                                    {
+                                        existingMatch.MatchName = matchNode.Attributes["Name"].Value;
+                                        existingMatch.StartDate = DateTime.Parse(matchNode.Attributes["StartDate"].Value);
+                                        existingMatch.EventId = eventId;
+                                    }
+
+                                    XmlNodeList betNodes = matchNode.SelectNodes("Bet");
+                                    foreach (XmlNode betNode in betNodes)
+                                    {
+                                        var betIdString = betNode.Attributes["ID"].Value;
+                                        var betId = int.Parse(betIdString);
+                                        var betName = betNode.Attributes["Name"].Value;
+                                        var betIsLive = bool.Parse(betNode.Attributes["IsLive"].Value);
+
+                                        var existingBet = data.Bets.FirstOrDefault(m => m.BetId == betId);
+
+                                        if (existingBet == null)
+                                        {
+                                            Bet bet = new Bet
+                                            {
+                                                BetId = betId,
+                                                BetName = betName,
+                                                MatchId = matchId,
+                                            };
+
+                                            data.Bets.Add(bet);
+                                        }
+                                        else
+                                        {
+                                            existingBet.BetName = betName;
+                                            existingBet.MatchId = matchId;
+                                            existingBet.IsLive = betIsLive;
+                                        }
+
+                                        XmlNodeList oddsNodes = betNode.SelectNodes("Odd");
+                                        foreach (XmlNode oddNode in oddsNodes)
+                                        {
+                                            var oddIdStrin = oddNode.Attributes["ID"]?.Value;
+                                            var oddId = int.Parse(oddIdStrin);
+                                            var oddValueString = oddNode.Attributes["Value"]?.Value;
+                                            var oddValue = decimal.Parse(oddValueString, CultureInfo.InvariantCulture);
+                                            var specialBetValueString = oddNode.Attributes["SpecialBetValue"]?.Value;
+                                            decimal? specialBetValue = !string.IsNullOrEmpty(specialBetValueString)
+                                            ? decimal.Parse(specialBetValueString, CultureInfo.InvariantCulture)
+                                            : (decimal?)null;
+
+                                            var existingOdd = data.Odds.FirstOrDefault(m => m.OddId == oddId);
+
+                                            if (existingOdd == null)
+                                            {
+                                                Odd odd = new Odd
+                                                {
+                                                    OddId = oddId,
+                                                    Name = oddNode.Attributes["Name"].Value,
+                                                    OddValue = oddValue,
+                                                    SpecialBetValue = specialBetValue,
+                                                    BetId = betId,
+                                                   
+                                                };
+
+                                                data.Odds.Add(odd);
+                                            }
+                                            else
+                                            {
+                                                existingOdd.Name = oddNode.Attributes["Name"].Value;
+                                                existingOdd.OddValue = oddValue;
+                                                existingOdd.SpecialBetValue = specialBetValue;
+                                                existingOdd.BetId = betId;
+                                            }
+                                        }
+                                    }
+                                }
                             }
-                            events.Matches.Add(match);
+
+                             data.SaveChanges();
                         }
-                        sport.Events.Add(events);
                     }
-                    data.Sports.Add(sport);
                 }
-                data.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
+    
 
         public async Task Time(CancellationToken stoppingToken)
         {
@@ -136,8 +202,8 @@ namespace E_SportGamingScore.Core.Services.XML
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                ParseAndStoreData();
-                data.SaveChangesAsync();
+               await ParseAndStoreData(serviceProvider);
+                
                 await Task.Delay(1000, stoppingToken);
             }
         }

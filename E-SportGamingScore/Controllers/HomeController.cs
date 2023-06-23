@@ -19,8 +19,7 @@ namespace E_SportGamingScore.Controllers
 
         public IActionResult Index(CancellationToken stoppingToken)
         {
-            xmlService.Time(stoppingToken);
-            this.ViewData["LoggedMessage"] = "Message logged on the index page.";
+            //xmlService.Time(stoppingToken);
             return View();
         }
 

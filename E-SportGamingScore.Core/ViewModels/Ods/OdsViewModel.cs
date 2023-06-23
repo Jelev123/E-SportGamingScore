@@ -2,9 +2,12 @@
 {
     public class OdsViewModel
     {
+        public int OddId { get; set; }
         public string OddName { get; set; }
 
         public string BetName { get; set; }
+
+        public int BetId { get; set; }
 
         public decimal OddValue { get; set; }
 

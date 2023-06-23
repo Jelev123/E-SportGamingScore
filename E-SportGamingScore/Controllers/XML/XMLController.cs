@@ -12,13 +12,13 @@ namespace E_SportGamingScore.Controllers.XML
             this.xmlService = xmlService;
         }
 
-        [HttpPost]
-        [Route("/process-xml")]
-        public IActionResult ProcessXml()
-        {
-                xmlService.ParseAndStoreData();
-                return this.Redirect("/");
-        }
+        //[HttpPost]
+        ////[Route("/process-xml")]
+        //public IActionResult ProcessXml()
+        //{
+        //        xmlService.ParseAndStoreData();
+        //        return this.Redirect("/");
+        //}
 
     }
 }
