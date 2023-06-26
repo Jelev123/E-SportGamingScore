@@ -5,21 +5,26 @@ using E_SportGamingScore.Core.ViewModels.Matches;
 using E_SportGamingScore.Core.ViewModels.Ods;
 using E_SportGamingScore.Core.ViewModels.Sports;
 using E_SportGamingScore.Infrastructure.Data;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace E_SportGamingScore.Core.Services.Sports
 {
     public class SportService : ISportService
     {
-        private readonly ApplicationDbContext data;
+        private readonly IServiceScopeFactory serviceScopeFactory;
 
-        public SportService(ApplicationDbContext data)
+
+        public SportService(ApplicationDbContext data, IServiceScopeFactory serviceScopeFactory)
         {
-            this.data = data;
+            this.serviceScopeFactory = serviceScopeFactory;
         }
 
         public IEnumerable<SportsViewModel> AllSports()
         {
-            return data.Sports.
+            using (var scope = serviceScopeFactory.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                return context.Sports.
                Select(s => new SportsViewModel
                {
                    SportId = s.SportId,
@@ -50,6 +55,7 @@ namespace E_SportGamingScore.Core.Services.Sports
                        })
                    })
                }).ToList();
+            }
         }
     }
 }

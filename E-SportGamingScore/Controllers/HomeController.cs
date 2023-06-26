@@ -1,29 +1,23 @@
-﻿using E_SportGamingScore.Core.Contracts.Matches;
-using E_SportGamingScore.Core.Contracts.XML;
+﻿using E_SportGamingScore.Core.Contracts.BackGround;
 using E_SportGamingScore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using System.Timers;
 
 namespace E_SportGamingScore.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IXmlService xmlService;
-        private readonly IMatchService matchService;
-
-        public HomeController(ILogger<HomeController> logger, IXmlService xmlService, IMatchService matchService)
+        private readonly IBackgroundTaskService backgroundTaskService;
+        public HomeController(ILogger<HomeController> logger, IBackgroundTaskService backgroundTaskService)
         {
             _logger = logger;
-            this.xmlService = xmlService;
-            this.matchService = matchService;
+            this.backgroundTaskService = backgroundTaskService;
         }
 
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
-            //await xmlService.Time(stoppingToken);
-           await matchService.Time(stoppingToken);
+            await backgroundTaskService.StartBackgroundTask(stoppingToken);
             return View();
         }
 

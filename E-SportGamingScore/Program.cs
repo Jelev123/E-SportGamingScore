@@ -1,6 +1,8 @@
+using E_SportGamingScore.Core.Contracts.BackGround;
 using E_SportGamingScore.Core.Contracts.Matches;
 using E_SportGamingScore.Core.Contracts.Sports;
 using E_SportGamingScore.Core.Contracts.XML;
+using E_SportGamingScore.Core.Services.Background;
 using E_SportGamingScore.Core.Services.Matches;
 using E_SportGamingScore.Core.Services.Sports;
 using E_SportGamingScore.Core.Services.XML;
@@ -14,7 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
+    options.UseSqlServer(connectionString), ServiceLifetime.Transient);
 
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
@@ -22,6 +24,8 @@ builder.Services.AddTransient<IXmlService, XMLService>();
 builder.Services.AddTransient<IMatchService, MatchesService>();
 builder.Services.AddTransient<ISportService, SportService>();
 builder.Services.AddScoped<ApplicationDbContext>();
+builder.Services.AddScoped<IBackgroundTaskService, BackgroundTaskService>();
+
 
 
 var app = builder.Build();

@@ -6,8 +6,8 @@ using E_SportGamingScore.Core.ViewModels.Ods;
 using E_SportGamingScore.Infrastructure.Data;
 using E_SportGamingScore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Security.Cryptography;
 
 namespace E_SportGamingScore.Core.Services.Matches
 {
@@ -15,41 +15,42 @@ namespace E_SportGamingScore.Core.Services.Matches
     {
         private readonly ApplicationDbContext data;
         private readonly ISportService sportService;
+        private readonly IServiceScopeFactory serviceScopeFactory;
 
 
-        public MatchesService(ApplicationDbContext data, ISportService sportService)
+
+        public MatchesService(ApplicationDbContext data, ISportService sportService, IServiceScopeFactory serviceScopeFactory)
         {
             this.data = data;
             this.sportService = sportService;
+            this.serviceScopeFactory = serviceScopeFactory;
         }
 
         public GetMatchById GetMatchById(int matchId)
         {
-            var match = this.data.Matches
-                 .Where(m => m.MatchId == matchId)
-                 .Select(m => new GetMatchById
-                 {
-                     MatchId = m.MatchId,
-                     MatchName = m.MatchName,
-                     MatchType = m.MatchType,
-                     StartDate = m.StartDate,
-                     Bets = m.Bets.Select(bet => new BetViewModel
-                     {
-                         BetId = bet.BetId,
-                         BetName = bet.BetName,
-                         Odds = bet.Odds.Select(odd => new OdsViewModel
-                         {
-                             OddId = odd.OddId,
-                             OddName = odd.Name,
-                             OddValue = odd.OddValue,
-                             BetName = bet.BetName,
-                             BetId = bet.BetId,
-                             SpecialBetValue = odd.SpecialBetValue
-                         }).ToList()
-                     }).ToList(),
-                 }).FirstOrDefault();
-
-            return match;
+            return this.data.Matches
+                  .Where(m => m.MatchId == matchId)
+                  .Select(m => new GetMatchById
+                  {
+                      MatchId = m.MatchId,
+                      MatchName = m.MatchName,
+                      MatchType = m.MatchType,
+                      StartDate = m.StartDate,
+                      Bets = m.Bets.Select(bet => new BetViewModel
+                      {
+                          BetId = bet.BetId,
+                          BetName = bet.BetName,
+                          Odds = bet.Odds.Select(odd => new OdsViewModel
+                          {
+                              OddId = odd.OddId,
+                              OddName = odd.Name,
+                              OddValue = odd.OddValue,
+                              BetName = bet.BetName,
+                              BetId = bet.BetId,
+                              SpecialBetValue = odd.SpecialBetValue
+                          }).ToList()
+                      }).ToList(),
+                  }).FirstOrDefault();
         }
 
         public IEnumerable<AllMatchesFor24H> AllMatchesFor24H()
@@ -70,7 +71,7 @@ namespace E_SportGamingScore.Core.Services.Matches
                 .Where(odd => odd.SpecialBetValue != null)
                 .ToList();
 
-            var matchesFor24Hs = matches
+            return matches
                 .Select(match => new AllMatchesFor24H
                 {
                     MatchId = match.MatchId,
@@ -102,9 +103,6 @@ namespace E_SportGamingScore.Core.Services.Matches
                         .ToList()
                 })
                 .ToList();
-
-
-            return matchesFor24Hs;
         }
         public IEnumerable<AllMatchesFor24H> AllMatches()
         {
@@ -141,130 +139,137 @@ namespace E_SportGamingScore.Core.Services.Matches
 
             try
             {
-                var currentSports = sportService.AllSports().ToList();
-
-                foreach (var currentSport in currentSports)
+                using (var scope = serviceScopeFactory.CreateScope())
                 {
-                    var existingSport = data.Sports.FirstOrDefault(s => s.SportId == currentSport.SportId);
+                    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                    if (existingSport == null)
+                    var currentSports = this.sportService.AllSports().ToList();
+
+                    foreach (var currentSport in currentSports)
                     {
-                        Sport sport = new Sport
+                        var existingSport = context.Sports.FirstOrDefault(s => s.SportId == currentSport.SportId);
+
+                        if (existingSport == null)
                         {
-                            SportId = currentSport.SportId,
-                            SportName = currentSport.SportName
-                        };
-
-                        data.Sports.Add(sport);
-                    }
-                    else
-                    {
-                        existingSport.SportName = currentSport.SportName;
-                    }
-
-                    foreach (var currentEvent in currentSport.Events)
-                    {
-                        var existingEvent = data.Events.FirstOrDefault(e => e.EventId == currentEvent.EventId);
-
-                        if (existingEvent == null)
-                        {
-                            Event events = new Event
+                            Sport sport = new Sport
                             {
-                                EventId = currentEvent.EventId,
-                                EventName = currentEvent.EventName,
-                                IsLive = currentEvent.IsLive,
-                                CategoryId = currentEvent.CategoryId,
-                                SportId = currentSport.SportId
+                                SportId = currentSport.SportId,
+                                SportName = currentSport.SportName
                             };
 
-                            data.Events.Add(events);
+                            context.Sports.Add(sport);
                         }
                         else
                         {
-                            existingEvent.EventName = currentEvent.EventName;
-                            existingEvent.IsLive = currentEvent.IsLive;
-                            existingEvent.CategoryId = currentEvent.CategoryId;
-                            existingEvent.SportId = currentSport.SportId;
+                            existingSport.SportName = currentSport.SportName;
                         }
 
-                        foreach (var currentMatch in currentEvent.Matches)
+                        foreach (var currentEvent in currentSport.Events)
                         {
-                            var existingMatch = data.Matches.FirstOrDefault(m => m.MatchId == currentMatch.MatchId);
+                            var existingEvent = context.Events.FirstOrDefault(e => e.EventId == currentEvent.EventId);
 
-                            if (existingMatch == null)
+                            if (existingEvent == null)
                             {
-                                Match match = new Match
+                                Event events = new Event
                                 {
-                                    MatchId = currentMatch.MatchId,
-                                    MatchName = currentMatch.MatchName,
-                                    MatchType = currentMatch.MatchType,
-                                    StartDate = currentMatch.MatchStartDate,
-                                    EventId = currentEvent.EventId
+                                    EventId = currentEvent.EventId,
+                                    EventName = currentEvent.EventName,
+                                    IsLive = currentEvent.IsLive,
+                                    CategoryId = currentEvent.CategoryId,
+                                    SportId = currentSport.SportId
                                 };
 
-                                data.Matches.Add(match);
+                                context.Events.Add(events);
                             }
                             else
                             {
-                                existingMatch.MatchName = currentMatch.MatchName;
-                                existingMatch.MatchType = currentMatch.MatchType;
-                                existingMatch.StartDate = currentMatch.MatchStartDate;
-                                existingMatch.EventId = currentEvent.EventId;
+                                existingEvent.EventName = currentEvent.EventName;
+                                existingEvent.IsLive = currentEvent.IsLive;
+                                existingEvent.CategoryId = currentEvent.CategoryId;
+                                existingEvent.SportId = currentSport.SportId;
                             }
 
-                            foreach (var currentBet in currentMatch.Bets)
+                            foreach (var currentMatch in currentEvent.Matches)
                             {
-                                var existingBet = data.Bets.FirstOrDefault(b => b.BetId == currentBet.BetId);
+                                var existingMatch = context.Matches.FirstOrDefault(m => m.MatchId == currentMatch.MatchId);
 
-                                if (existingBet == null)
+                                if (existingMatch == null)
                                 {
-                                    Bet bet = new Bet
+                                    Match match = new Match
                                     {
-                                        BetId = currentBet.BetId,
-                                        BetName = currentBet.BetName,
                                         MatchId = currentMatch.MatchId,
-                                        IsLive = currentBet.IsBetLive
+                                        MatchName = currentMatch.MatchName,
+                                        MatchType = currentMatch.MatchType,
+                                        StartDate = currentMatch.MatchStartDate,
+                                        EventId = currentEvent.EventId
                                     };
 
-                                    data.Bets.Add(bet);
+                                    context.Matches.Add(match);
                                 }
                                 else
                                 {
-                                    existingBet.BetName = currentBet.BetName;
-                                    existingBet.MatchId = currentMatch.MatchId;
-                                    existingBet.IsLive = currentBet.IsBetLive;
+                                    existingMatch.MatchName = currentMatch.MatchName;
+                                    existingMatch.MatchType = currentMatch.MatchType;
+                                    existingMatch.StartDate = currentMatch.MatchStartDate;
+                                    existingMatch.EventId = currentEvent.EventId;
                                 }
 
-                                foreach (var currentOdd in currentBet.Odds)
+                                foreach (var currentBet in currentMatch.Bets)
                                 {
-                                    var existingOdd = data.Odds.FirstOrDefault(o => o.OddId == currentOdd.OddId);
+                                    var existingBet = context.Bets.FirstOrDefault(b => b.BetId == currentBet.BetId);
 
-                                    if (existingOdd == null)
+                                    if (existingBet == null)
                                     {
-                                        Odd odd = new Odd
+                                        Bet bet = new Bet
                                         {
-                                            OddId = currentOdd.OddId,
-                                            Name = currentOdd.OddName,
-                                            OddValue = currentOdd.OddValue,
-                                            SpecialBetValue = currentOdd.SpecialBetValue,
-                                            BetId = currentBet.BetId
+                                            BetId = currentBet.BetId,
+                                            BetName = currentBet.BetName,
+                                            MatchId = currentMatch.MatchId,
+                                            IsLive = currentBet.IsBetLive
                                         };
 
-                                        data.Odds.Add(odd);
+                                        context.Bets.Add(bet);
                                     }
                                     else
                                     {
-                                        existingOdd.Name = currentOdd.OddName;
-                                        existingOdd.OddValue = currentOdd.OddValue;
-                                        existingOdd.SpecialBetValue = currentOdd.SpecialBetValue;
-                                        existingOdd.BetId = currentBet.BetId;
+                                        existingBet.BetName = currentBet.BetName;
+                                        existingBet.MatchId = currentMatch.MatchId;
+                                        existingBet.IsLive = currentBet.IsBetLive;
+                                    }
+
+                                    foreach (var currentOdd in currentBet.Odds)
+                                    {
+                                        var existingOdd = context.Odds.FirstOrDefault(o => o.OddId == currentOdd.OddId);
+
+                                        if (existingOdd == null)
+                                        {
+                                            Odd odd = new Odd
+                                            {
+                                                OddId = currentOdd.OddId,
+                                                Name = currentOdd.OddName,
+                                                OddValue = currentOdd.OddValue,
+                                                SpecialBetValue = currentOdd.SpecialBetValue,
+                                                BetId = currentBet.BetId
+                                            };
+
+                                            context.Odds.Add(odd);
+                                        }
+                                        else
+                                        {
+                                            existingOdd.Name = currentOdd.OddName;
+                                            existingOdd.OddValue = currentOdd.OddValue;
+                                            existingOdd.SpecialBetValue = currentOdd.SpecialBetValue;
+                                            existingOdd.BetId = currentBet.BetId;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+                    await context.SaveChangesAsync();
+
+
                 }
-                await data.SaveChangesAsync();
             }
             catch (Exception)
             {

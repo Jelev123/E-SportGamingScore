@@ -1,5 +1,4 @@
 ﻿using E_SportGamingScore.Core.Contracts.Matches;
-using E_SportGamingScore.Core.ViewModels.Ods;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_SportGamingScore.Controllers.Match
@@ -13,21 +12,10 @@ namespace E_SportGamingScore.Controllers.Match
             this.matchesService = matchesService;
         }
 
-        public IActionResult AllMatchesFor24H()
-        {
-            return this.View(matchesService.AllMatchesFor24H());
-        } 
-        public IActionResult AllMatches()
-        {
-            return View(matchesService.AllMatches());
-        }
-
-        //public IActionResult CheckForChanges()
-        //{
-        //    this.matchesService.CheckFroChanges();
-        //    return Ok();
-        //}
-
+        public IActionResult AllMatchesFor24H() => this.View(matchesService.AllMatchesFor24H());
+        
+        public IActionResult AllMatches() => this.View(matchesService.AllMatches());
+       
         public IActionResult GetById(int matchId) => this.View(matchesService.GetMatchById(matchId));
         
     }

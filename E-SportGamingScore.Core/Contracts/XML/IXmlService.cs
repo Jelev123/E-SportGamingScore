@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Xml;
+﻿using System.Xml;
 
 namespace E_SportGamingScore.Core.Contracts.XML
 {
@@ -8,7 +7,5 @@ namespace E_SportGamingScore.Core.Contracts.XML
         Task<XmlDocument> ReadXml(string xmlPath);
 
         Task ParseAndStoreData();
-
-        Task Time(CancellationToken stoppingToken);
     }
 }
