@@ -14,7 +14,5 @@ namespace E_SportGamingScore.Core.Contracts.Matches
         GetMatchById GetMatchById(int matchId);
 
         Task CheckForChanges();
-
-        Task Time(CancellationToken stoppingToken);
     }
 }

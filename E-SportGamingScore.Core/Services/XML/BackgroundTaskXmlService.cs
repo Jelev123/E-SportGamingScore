@@ -2,19 +2,17 @@
 using E_SportGamingScore.Core.Contracts.Matches;
 using E_SportGamingScore.Core.Contracts.XML;
 
-namespace E_SportGamingScore.Core.Services.Background
+namespace E_SportGamingScore.Core.Services.XML
 {
-    public class BackgroundTaskService : IBackgroundTaskService
+    public class BackgroundTaskXmlService : IBackgroundTaskXmlService
     {
         private Task _backgroundTask;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly IXmlService xmlService;
-        private readonly IMatchService matchService;
 
-        public BackgroundTaskService(IXmlService xmlService, IMatchService matchService)
+        public BackgroundTaskXmlService(IXmlService xmlService)
         {
             this.xmlService = xmlService;
-            this.matchService = matchService;
         }
 
         public async Task StartBackgroundTask(CancellationToken cancellationToken)
@@ -26,10 +24,8 @@ namespace E_SportGamingScore.Core.Services.Background
             {
                 while (!linkedToken.IsCancellationRequested)
                 {
-                    var checkForChangeTask = this.CheckForChange();
-                    var xmlAddTask = this.XmlAdd();
-
-                    await Task.WhenAll(xmlAddTask, checkForChangeTask);
+                    var xmlAddTask = xmlService.ParseAndStoreData();
+                    await Task.Delay(60000);
                 }
             }, linkedToken);
         }
@@ -37,18 +33,6 @@ namespace E_SportGamingScore.Core.Services.Background
         public void StopBackgroundTask()
         {
             _cancellationTokenSource?.Cancel();
-        }
-
-        public async Task XmlAdd()
-        {
-            await this.xmlService.ParseAndStoreData();
-            await Task.Delay(1000);
-        }
-
-        public async Task CheckForChange()
-        {
-            await this.matchService.CheckForChanges();
-            await Task.Delay(5000);
         }
     }
 }

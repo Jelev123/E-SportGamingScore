@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace E_SportGamingScore.Core.Services.Matches
 {
-    public class MatchesService : BackgroundService, IMatchService
+    public class MatchesService : IMatchService
     {
         private readonly ApplicationDbContext data;
         private readonly ISportService sportService;
@@ -277,20 +277,5 @@ namespace E_SportGamingScore.Core.Services.Matches
                 throw;
             }
         }
-
-        public async Task Time(CancellationToken stoppingToken)
-        {
-            await this.ExecuteAsync(stoppingToken);
-        }
-
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await this.CheckForChanges();
-                await Task.Delay(1000, stoppingToken);
-            }
-        }
-
     }
 }

@@ -38,7 +38,6 @@ namespace E_SportGamingScore.Core.Services.XML
 
         public async Task ParseAndStoreData()
         {
-
             try
             {
                 using (var scope = serviceScopeFactory.CreateScope())

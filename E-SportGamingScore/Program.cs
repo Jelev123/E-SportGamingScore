@@ -1,8 +1,8 @@
 using E_SportGamingScore.Core.Contracts.BackGround;
+using E_SportGamingScore.Core.Contracts.Backround;
 using E_SportGamingScore.Core.Contracts.Matches;
 using E_SportGamingScore.Core.Contracts.Sports;
 using E_SportGamingScore.Core.Contracts.XML;
-using E_SportGamingScore.Core.Services.Background;
 using E_SportGamingScore.Core.Services.Matches;
 using E_SportGamingScore.Core.Services.Sports;
 using E_SportGamingScore.Core.Services.XML;
@@ -24,8 +24,8 @@ builder.Services.AddTransient<IXmlService, XMLService>();
 builder.Services.AddTransient<IMatchService, MatchesService>();
 builder.Services.AddTransient<ISportService, SportService>();
 builder.Services.AddScoped<ApplicationDbContext>();
-builder.Services.AddScoped<IBackgroundTaskService, BackgroundTaskService>();
-
+builder.Services.AddScoped<IBackgroundTaskXmlService, BackgroundTaskXmlService>();
+builder.Services.AddScoped<IBackgroundTaskMatchService, BackgroundTaskMatchesService>();
 
 
 var app = builder.Build();
