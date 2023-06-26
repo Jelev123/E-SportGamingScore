@@ -1,7 +1,9 @@
-﻿using E_SportGamingScore.Core.Contracts.XML;
+﻿using E_SportGamingScore.Core.Contracts.Matches;
+using E_SportGamingScore.Core.Contracts.XML;
 using E_SportGamingScore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Timers;
 
 namespace E_SportGamingScore.Controllers
 {
@@ -9,17 +11,19 @@ namespace E_SportGamingScore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IXmlService xmlService;
+        private readonly IMatchService matchService;
 
-
-        public HomeController(ILogger<HomeController> logger, IXmlService xmlService)
+        public HomeController(ILogger<HomeController> logger, IXmlService xmlService, IMatchService matchService)
         {
             _logger = logger;
             this.xmlService = xmlService;
+            this.matchService = matchService;
         }
 
-        public IActionResult Index(CancellationToken stoppingToken)
+        public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
-            //xmlService.Time(stoppingToken);
+            //await xmlService.Time(stoppingToken);
+           await matchService.Time(stoppingToken);
             return View();
         }
 

@@ -18,8 +18,6 @@ namespace E_SportGamingScore.Infrastructure.Models
         [XmlAttribute("MatchType")]
         public string MatchType { get; set; }
 
-        public bool IsLive { get; set; }
-
         [XmlAttribute("EventId")]
         public int EventId { get; set; }
 

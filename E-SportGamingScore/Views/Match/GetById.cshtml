@@ -4,29 +4,43 @@
 
 
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Match Name</th>
+            <th>Bet Name</th>
+            <th>Odd Name</th>
+            <th>Odd Value</th>
+            <th>SpecialBetValue</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="@Model.Bets.Count + 1">@Model.MatchName</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var bet in Model.Bets)
+        {
+            <tr>
+                <td colspan="4">@bet.BetName</td>
+            </tr>
+            @foreach (var odd in bet.Odds)
+            {
+                <tr>
+                    <td></td>
+                    <td>@odd.OddName</td>
+                    <td>@odd.OddValue</td>
+                    <td>@odd.SpecialBetValue</td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
 
-<form id="oddsForm" method="post" action="/Match/CheckFroChanges">
-    <th scope="row">
-        @Model.MatchName
-    </th>
-    <input type="hidden" name="MatchId" value="@Model.MatchId" /> <!-- Add hidden input field for MatchId -->
-    @for (var i = 0; i < Model.Ods.Count; i++)
-    {
-        var item2 = Model.Ods[i];
-        <td>@item2.BetName</td>
-        <td>@item2.OddName</td>
-        <td>
-            <input type="hidden" name="Ods.Index" value="@i" />
-            <input type="hidden" name="Ods[@i].BetName" value="@item2.BetName" />
-            <input type="hidden" name="Ods[@i].OddName" value="@item2.OddName" />
-            <input type="hidden" name="Ods[@i].OldOddValue" value="@item2.OddValue" />
-            <input type="text" name="Ods[@i].OddValue" value="@item2.OddValue" />
-        </td>
-    }
-    <td>
-        <button type="submit" class="btn">Save</button>
-    </td>
-</form>
+
 
 
 

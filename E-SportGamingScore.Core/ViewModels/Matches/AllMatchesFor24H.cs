@@ -6,8 +6,6 @@ namespace E_SportGamingScore.Core.ViewModels.Matches
 {
     public class AllMatchesFor24H
     {
-        public int Id { get; set; }
-
         public int MatchId { get; set; }
 
         public string MatchName { get; set; }
@@ -18,7 +16,7 @@ namespace E_SportGamingScore.Core.ViewModels.Matches
 
         public bool IsBerAlive { get; set; }
 
-        public List<OdsViewModel> Odds { get; set; }
+        public int EventId { get; set; }
 
         public List<BetViewModel> Bets { get; set; }
 

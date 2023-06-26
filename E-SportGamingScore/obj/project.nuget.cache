@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "N3DQoi1VbHdxp4JVmSPbQvUQwjbW1tznRcs1uf+yhGJlYM5NC04pgST04rRGPXzi/adVNVSBQlM27T2fffm5cQ==",
+  "dgSpecHash": "WZ8yhg32cPoaY5qS8YLMSQUPBwkiRVsWcFGUWNw64VJPoNxF0O9UGxWhB1lUt7ME0h5rFO4HtSwGg/o3hFCHEA==",
   "success": true,
   "projectFilePath": "D:\\Projects\\E-SportGamingScore\\E-SportGamingScore\\E-SportGamingScore.csproj",
   "expectedPackageFiles": [
@@ -45,6 +45,7 @@
     "C:\\Users\\User\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\system.diagnostics.eventlog\\7.0.0\\system.diagnostics.eventlog.7.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.8.0\\system.identitymodel.tokens.jwt.6.8.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.io.pipelines\\5.0.2\\system.io.pipelines.5.0.2.nupkg.sha512",
@@ -55,6 +56,7 @@
     "C:\\Users\\User\\.nuget\\packages\\system.security.cryptography.protecteddata\\6.0.0\\system.security.cryptography.protecteddata.6.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.security.permissions\\6.0.0\\system.security.permissions.6.0.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\User\\.nuget\\packages\\system.serviceprocess.servicecontroller\\7.0.1\\system.serviceprocess.servicecontroller.7.0.1.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.text.encoding.codepages\\4.7.0\\system.text.encoding.codepages.4.7.0.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],

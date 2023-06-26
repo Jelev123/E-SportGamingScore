@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace E_SportGamingScore.Infrastructure.Migrations
 {
-    public partial class adaa : Migration
+    public partial class createDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,7 +50,6 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     MatchName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MatchType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsLive = table.Column<bool>(type: "bit", nullable: false),
                     EventId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -91,7 +90,7 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     OddId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OddValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    SpecialBetValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SpecialBetValue = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     BetId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

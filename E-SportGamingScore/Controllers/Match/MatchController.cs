@@ -6,29 +6,29 @@ namespace E_SportGamingScore.Controllers.Match
 {
     public class MatchController : Controller
     {
-        private readonly IMatches matchesService;
+        private readonly IMatchService matchesService;
 
-        public MatchController(IMatches matchesService)
+        public MatchController(IMatchService matchesService)
         {
             this.matchesService = matchesService;
         }
 
         public IActionResult AllMatchesFor24H()
         {
-            return View(matchesService.AllMatchesFor24H());
+            return this.View(matchesService.AllMatchesFor24H());
         } 
         public IActionResult AllMatches()
         {
             return View(matchesService.AllMatches());
         }
 
-        public IActionResult CheckFroChanges()
-        {
-            this.matchesService.CheckFroChanges();
-            return Ok();
-        }
+        //public IActionResult CheckForChanges()
+        //{
+        //    this.matchesService.CheckFroChanges();
+        //    return Ok();
+        //}
 
-        public IActionResult GetById(int matchId) => View(matchesService.GetMatchById(matchId));
+        public IActionResult GetById(int matchId) => this.View(matchesService.GetMatchById(matchId));
         
     }
 }

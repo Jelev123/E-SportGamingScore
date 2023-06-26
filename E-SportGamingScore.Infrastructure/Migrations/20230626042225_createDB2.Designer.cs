@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_SportGamingScore.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230623065124_adaasss")]
-    partial class adaasss
+    [Migration("20230626042225_createDB2")]
+    partial class createDB2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,9 +78,6 @@ namespace E_SportGamingScore.Infrastructure.Migrations
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsLive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("MatchName")
                         .IsRequired()

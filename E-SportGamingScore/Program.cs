@@ -1,6 +1,8 @@
 using E_SportGamingScore.Core.Contracts.Matches;
+using E_SportGamingScore.Core.Contracts.Sports;
 using E_SportGamingScore.Core.Contracts.XML;
 using E_SportGamingScore.Core.Services.Matches;
+using E_SportGamingScore.Core.Services.Sports;
 using E_SportGamingScore.Core.Services.XML;
 using E_SportGamingScore.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -12,12 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString), ServiceLifetime.Transient);
+    options.UseSqlServer(connectionString), ServiceLifetime.Scoped);
 
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IXmlService, XMLService>();
-builder.Services.AddTransient<IMatches, MatchesService>();
+builder.Services.AddTransient<IMatchService, MatchesService>();
+builder.Services.AddTransient<ISportService, SportService>();
+builder.Services.AddScoped<ApplicationDbContext>();
 
 
 var app = builder.Build();

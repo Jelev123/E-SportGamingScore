@@ -1,9 +1,11 @@
-﻿using E_SportGamingScore.Core.ViewModels.Matches;
+﻿using E_SportGamingScore.Core.Services.Matches;
+using E_SportGamingScore.Core.ViewModels.Matches;
 using E_SportGamingScore.Core.ViewModels.Ods;
+using System.Timers;
 
 namespace E_SportGamingScore.Core.Contracts.Matches
 {
-    public interface IMatches
+    public interface IMatchService
     {
         IEnumerable<AllMatchesFor24H> AllMatches();
 
@@ -11,6 +13,8 @@ namespace E_SportGamingScore.Core.Contracts.Matches
 
         GetMatchById GetMatchById(int matchId);
 
-        void CheckFroChanges();
+        Task CheckForChanges();
+
+        Task Time(CancellationToken stoppingToken);
     }
 }

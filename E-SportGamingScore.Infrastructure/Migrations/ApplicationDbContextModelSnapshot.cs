@@ -77,9 +77,6 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     b.Property<int>("EventId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsLive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("MatchName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

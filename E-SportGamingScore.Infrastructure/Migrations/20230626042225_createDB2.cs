@@ -4,7 +4,7 @@
 
 namespace E_SportGamingScore.Infrastructure.Migrations
 {
-    public partial class adaasss : Migration
+    public partial class createDB2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

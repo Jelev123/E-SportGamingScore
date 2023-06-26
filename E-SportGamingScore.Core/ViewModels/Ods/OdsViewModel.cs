@@ -12,5 +12,7 @@
         public decimal OddValue { get; set; }
 
         public decimal? SpecialBetValue { get; set; }
+
+        public int MatchId { get; set; }
     }
 }

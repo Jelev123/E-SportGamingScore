@@ -9,34 +9,51 @@
             <th scope="col">Match Name</th>
             <th scope="col">Value</th>
             <th scope="col">SpecialBetValue</th>
-            <th scope="col">Is a live match</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-                <tr>
-            @foreach (var ods in item.Odds)
-            {
-                    <th scope="row">@ods.BetName</th>
+            <tr>
+                <td><a class="btn" btn asp-action="GetById" asp-controller="Match" asp-route-matchId="@item.MatchId">@item.MatchName</a></td>
+                @foreach (var bet in item.Bets)
+                {
+                    <th scope="row">@bet.BetName</th>
                     <td>@item.MatchType</td>
 
-                    <td><a class="btn" btn asp-action="GetById" asp-controller="Match" asp-route-matchId="@item.MatchId">@item.MatchName</a></td>
-                    <td>@ods.OddValue</td>
-                    <td>@ods.SpecialBetValue</td>
-                    @if (item.IsBerAlive == false)
+                    @foreach (var odd in bet.Odds)
                     {
-                        <td>No</td>
+                        <td>
+                            @foreach (var value in bet.Odds)
+                            {
+                                <p>@value.OddValue</p>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var spec in bet.Odds)
+                            {
+                                <p>@spec.SpecialBetValue</p>
+                            }
+                        </td>
+                       
 
                     }
-                    @if (item.IsBerAlive == true)
-                    {
-                        <td>Yes</td>
+                }
+            </tr>
+            @if (item.IsBerAlive == false)
+            {
+            <td>No</td>
 
-                    }
             }
-                </tr>
+            @if (item.IsBerAlive == true)
+            {
+            <td>Yes</td>
 
+            }
         }
 
     </tbody>
