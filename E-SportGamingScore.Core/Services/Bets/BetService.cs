@@ -27,6 +27,8 @@ namespace E_SportGamingScore.Core.Services.Bets
             var testUpdateBetMessages = new List<UpdateBetMessagesViewModel>();
             var currentSports = this.sportService.AllSports();
 
+            //Тhe idea of these lists is that the method will accept information in the form of an information lists аnd this method will process it and send the information to the message table
+
             testUpdateBetMessages.Add(new UpdateBetMessagesViewModel
             {
                 BetId = 47516460,

@@ -141,6 +141,9 @@ namespace E_SportGamingScore.Core.Services.Matches
             var testUpdateMatchMessages = new List<UpdateMatchesMessagesViewModel>();
             var currentSports = this.sportService.AllSports();
 
+
+            //Тhe idea of these lists is that the method will accept information in the form of an information lists аnd this method will process it and send the information to the message table
+
             testUpdateMatchMessages.Add(new UpdateMatchesMessagesViewModel
             {
                 MatchId = 2996654,
