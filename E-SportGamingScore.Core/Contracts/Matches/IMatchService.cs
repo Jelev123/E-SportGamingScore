@@ -1,7 +1,4 @@
-﻿using E_SportGamingScore.Core.Services.Matches;
-using E_SportGamingScore.Core.ViewModels.Matches;
-using E_SportGamingScore.Core.ViewModels.Ods;
-using System.Timers;
+﻿using E_SportGamingScore.Core.ViewModels.Matches;
 
 namespace E_SportGamingScore.Core.Contracts.Matches
 {
@@ -13,6 +10,7 @@ namespace E_SportGamingScore.Core.Contracts.Matches
 
         GetMatchById GetMatchById(int matchId);
 
-        Task CheckForChanges();
+        Task<IEnumerable<UpdateMatchesMessagesViewModel>> GenerateMatchUpdateMessages();
+
     }
 }

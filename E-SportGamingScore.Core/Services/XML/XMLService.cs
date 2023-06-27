@@ -151,7 +151,7 @@ namespace E_SportGamingScore.Core.Services.XML
 
                                         if (existingOdd == null)
                                         {
-                                            Odd odd = new Odd
+                                            Infrastructure.Models.Odd odd = new Infrastructure.Models.Odd
                                             {
                                                 OddId = oddId,
                                                 Name = oddName,

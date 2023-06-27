@@ -1,7 +1,6 @@
 ﻿using E_SportGamingScore.Core.Contracts.BackGround;
 using E_SportGamingScore.Core.Contracts.Backround;
-using E_SportGamingScore.Core.Services.Matches;
-using E_SportGamingScore.Core.Services.XML;
+using E_SportGamingScore.Core.Services.Background;
 using E_SportGamingScore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -11,21 +10,27 @@ namespace E_SportGamingScore.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IBackgroundTaskXmlService backgroundTaskService;
+        private readonly IBackgroundTaskXmlService backgroundTaskXmlService;
         private readonly IBackgroundTaskMatchService backgroundCheckMatchesService;
-        public HomeController(ILogger<HomeController> logger, IBackgroundTaskXmlService backgroundTaskService, IBackgroundTaskMatchService backgroundCheckMatchesService)
+        private readonly IBackgroundTaskBetService backgroundTaskBetService;
+        private readonly IBackgroundTaskOddService backgroundTaskOddService;
+        public HomeController(ILogger<HomeController> logger, IBackgroundTaskXmlService backgroundTaskXmlService, IBackgroundTaskMatchService backgroundCheckMatchesService, IBackgroundTaskBetService backgroundTaskBetService, IBackgroundTaskOddService backgroundTaskOddService)
         {
             _logger = logger;
-            this.backgroundTaskService = backgroundTaskService;
+            this.backgroundTaskXmlService = backgroundTaskXmlService;
             this.backgroundCheckMatchesService = backgroundCheckMatchesService;
+            this.backgroundTaskBetService = backgroundTaskBetService;
+            this.backgroundTaskOddService = backgroundTaskOddService;
         }
 
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
-            var task1 = backgroundCheckMatchesService.StartBackgroundTask(stoppingToken);
-            var task2 = backgroundTaskService.StartBackgroundTask(stoppingToken);
+            var task1 = backgroundTaskXmlService.StartBackgroundTask(stoppingToken);
+            var task2 = backgroundCheckMatchesService.StartBackgroundTask(stoppingToken);
+            var task3 = backgroundTaskBetService.StartBackgroundTask(stoppingToken);
+            var task4 = backgroundTaskOddService.StartBackgroundTask(stoppingToken);
 
-            await Task.WhenAll(task1, task2);
+            await Task.WhenAll(task1, task2, task3,task4);
 
             return View();
         }

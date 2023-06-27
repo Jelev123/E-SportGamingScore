@@ -1,5 +1,6 @@
 ﻿using E_SportGamingScore.Core.Contracts.Matches;
 using E_SportGamingScore.Core.Contracts.Sports;
+using E_SportGamingScore.Core.Enums;
 using E_SportGamingScore.Core.ViewModels.Bets;
 using E_SportGamingScore.Core.ViewModels.Matches;
 using E_SportGamingScore.Core.ViewModels.Ods;
@@ -7,7 +8,6 @@ using E_SportGamingScore.Infrastructure.Data;
 using E_SportGamingScore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace E_SportGamingScore.Core.Services.Matches
 {
@@ -134,8 +134,35 @@ namespace E_SportGamingScore.Core.Services.Matches
             return allMatches;
         }
 
-        public async Task CheckForChanges()
+
+        public async Task<IEnumerable<UpdateMatchesMessagesViewModel>> GenerateMatchUpdateMessages()
         {
+            var updatedMatch = new List<UpdateMatchMessages>();
+            var testUpdateMatchMessages = new List<UpdateMatchesMessagesViewModel>();
+            var currentSports = this.sportService.AllSports();
+
+            testUpdateMatchMessages.Add(new UpdateMatchesMessagesViewModel
+            {
+                MatchId = 2996654,
+                MatchName = "match 1",
+                MatchType = "Test Type",
+                MatchStartDate = DateTime.Now,
+                ActionType = MessageActionTypeEnum.Update.ToString(),
+                TimeStamp = DateTime.Now
+            }); testUpdateMatchMessages.Add(new UpdateMatchesMessagesViewModel
+            {
+                MatchId = 2996654,
+                MatchName = "match 2",
+                MatchType = "Test Type2",
+                MatchStartDate = DateTime.Now,
+                ActionType = MessageActionTypeEnum.Update.ToString(),
+                TimeStamp = DateTime.Now
+            });
+
+            var uniqueUpdateMatchMessages = testUpdateMatchMessages
+             .GroupBy(u => new { u.MatchId })
+             .Select(g => g.First())
+             .ToList();
 
             try
             {
@@ -143,132 +170,38 @@ namespace E_SportGamingScore.Core.Services.Matches
                 {
                     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
-                    var currentSports = this.sportService.AllSports().ToList();
-
                     foreach (var currentSport in currentSports)
                     {
-                        var existingSport = context.Sports.FirstOrDefault(s => s.SportId == currentSport.SportId);
-
-                        if (existingSport == null)
-                        {
-                            Sport sport = new Sport
-                            {
-                                SportId = currentSport.SportId,
-                                SportName = currentSport.SportName
-                            };
-
-                            context.Sports.Add(sport);
-                        }
-                        else
-                        {
-                            existingSport.SportName = currentSport.SportName;
-                        }
-
                         foreach (var currentEvent in currentSport.Events)
                         {
-                            var existingEvent = context.Events.FirstOrDefault(e => e.EventId == currentEvent.EventId);
-
-                            if (existingEvent == null)
-                            {
-                                Event events = new Event
-                                {
-                                    EventId = currentEvent.EventId,
-                                    EventName = currentEvent.EventName,
-                                    IsLive = currentEvent.IsLive,
-                                    CategoryId = currentEvent.CategoryId,
-                                    SportId = currentSport.SportId
-                                };
-
-                                context.Events.Add(events);
-                            }
-                            else
-                            {
-                                existingEvent.EventName = currentEvent.EventName;
-                                existingEvent.IsLive = currentEvent.IsLive;
-                                existingEvent.CategoryId = currentEvent.CategoryId;
-                                existingEvent.SportId = currentSport.SportId;
-                            }
-
                             foreach (var currentMatch in currentEvent.Matches)
                             {
-                                var existingMatch = context.Matches.FirstOrDefault(m => m.MatchId == currentMatch.MatchId);
+                                var matchingUpdatematch = uniqueUpdateMatchMessages.FirstOrDefault(
+                                           u => u.MatchId == currentMatch.MatchId);
 
-                                if (existingMatch == null)
+                                if (matchingUpdatematch != null)
                                 {
-                                    Match match = new Match
+                                    currentMatch.MatchName = matchingUpdatematch.MatchName;
+                                    currentMatch.MatchType = matchingUpdatematch.MatchType;
+                                    currentMatch.MatchStartDate = matchingUpdatematch.MatchStartDate;
+
+                                    var update = new UpdateMatchMessages
                                     {
                                         MatchId = currentMatch.MatchId,
                                         MatchName = currentMatch.MatchName,
                                         MatchType = currentMatch.MatchType,
-                                        StartDate = currentMatch.MatchStartDate,
-                                        EventId = currentEvent.EventId
+                                        MatchStartDate = currentMatch.MatchStartDate,
+                                        ActionType = MessageActionTypeEnum.Update.ToString(),
+                                        TimeStamp = DateTime.Now
                                     };
 
-                                    context.Matches.Add(match);
-                                }
-                                else
-                                {
-                                    existingMatch.MatchName = currentMatch.MatchName;
-                                    existingMatch.MatchType = currentMatch.MatchType;
-                                    existingMatch.StartDate = currentMatch.MatchStartDate;
-                                    existingMatch.EventId = currentEvent.EventId;
-                                }
-
-                                foreach (var currentBet in currentMatch.Bets)
-                                {
-                                    var existingBet = context.Bets.FirstOrDefault(b => b.BetId == currentBet.BetId);
-
-                                    if (existingBet == null)
-                                    {
-                                        Bet bet = new Bet
-                                        {
-                                            BetId = currentBet.BetId,
-                                            BetName = currentBet.BetName,
-                                            MatchId = currentMatch.MatchId,
-                                            IsLive = currentBet.IsBetLive
-                                        };
-
-                                        context.Bets.Add(bet);
-                                    }
-                                    else
-                                    {
-                                        existingBet.BetName = currentBet.BetName;
-                                        existingBet.MatchId = currentMatch.MatchId;
-                                        existingBet.IsLive = currentBet.IsBetLive;
-                                    }
-
-                                    foreach (var currentOdd in currentBet.Odds)
-                                    {
-                                        var existingOdd = context.Odds.FirstOrDefault(o => o.OddId == currentOdd.OddId);
-
-                                        if (existingOdd == null)
-                                        {
-                                            Odd odd = new Odd
-                                            {
-                                                OddId = currentOdd.OddId,
-                                                Name = currentOdd.OddName,
-                                                OddValue = currentOdd.OddValue,
-                                                SpecialBetValue = currentOdd.SpecialBetValue,
-                                                BetId = currentBet.BetId
-                                            };
-
-                                            context.Odds.Add(odd);
-                                        }
-                                        else
-                                        {
-                                            existingOdd.Name = currentOdd.OddName;
-                                            existingOdd.OddValue = currentOdd.OddValue;
-                                            existingOdd.SpecialBetValue = currentOdd.SpecialBetValue;
-                                            existingOdd.BetId = currentBet.BetId;
-                                        }
-                                    }
+                                    updatedMatch.Add(update);
+                                    context.UpdateMatchMessages.Add(update);
                                 }
                             }
                         }
                     }
                     await context.SaveChangesAsync();
-
-
                 }
             }
             catch (Exception)
@@ -276,6 +209,8 @@ namespace E_SportGamingScore.Core.Services.Matches
 
                 throw;
             }
+            return (IEnumerable<UpdateMatchesMessagesViewModel>)updatedMatch;
         }
     }
 }
+

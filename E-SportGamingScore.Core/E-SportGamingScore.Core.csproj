@@ -19,8 +19,4 @@
     <ProjectReference Include="..\E-SportGamingScore.Infrastructure\E-SportGamingScore.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\Background\" />
-  </ItemGroup>
-
 </Project>

@@ -23,5 +23,8 @@ namespace E_SportGamingScore.Infrastructure.Data
         public DbSet<Match> Matches { get; set; }
         public DbSet<Bet> Bets { get; set; }
         public DbSet<Odd> Odds { get; set; }
+        public DbSet<UpdateMatchMessages> UpdateMatchMessages { get; set; }
+        public DbSet<UpdateBetMessages> UpdateBetMessages { get; set; }
+        public DbSet<UpdateOddMessages> UpdateOddMessages { get; set; }
     }
 }

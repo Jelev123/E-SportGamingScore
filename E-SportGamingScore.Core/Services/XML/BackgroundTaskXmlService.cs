@@ -1,14 +1,13 @@
 ﻿using E_SportGamingScore.Core.Contracts.BackGround;
-using E_SportGamingScore.Core.Contracts.Matches;
 using E_SportGamingScore.Core.Contracts.XML;
 
 namespace E_SportGamingScore.Core.Services.XML
 {
     public class BackgroundTaskXmlService : IBackgroundTaskXmlService
     {
+        private readonly IXmlService xmlService;
         private Task _backgroundTask;
         private CancellationTokenSource _cancellationTokenSource;
-        private readonly IXmlService xmlService;
 
         public BackgroundTaskXmlService(IXmlService xmlService)
         {

@@ -134,6 +134,103 @@ namespace E_SportGamingScore.Infrastructure.Migrations
                     b.ToTable("Sports");
                 });
 
+            modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.UpdateBetMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ActionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("BetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BetName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsBetLive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UpdateBetMessages");
+                });
+
+            modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.UpdateMatchMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ActionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("MatchId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MatchName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("MatchStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MatchType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UpdateMatchMessages");
+                });
+
+            modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.UpdateOddMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ActionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OddId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OddName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("OddValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("SpecialBetValue")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UpdateOddMessages");
+                });
+
             modelBuilder.Entity("E_SportGamingScore.Infrastructure.Models.Bet", b =>
                 {
                     b.HasOne("E_SportGamingScore.Infrastructure.Models.Match", "Match")

@@ -1,9 +1,14 @@
 using E_SportGamingScore.Core.Contracts.BackGround;
 using E_SportGamingScore.Core.Contracts.Backround;
+using E_SportGamingScore.Core.Contracts.Bet;
 using E_SportGamingScore.Core.Contracts.Matches;
+using E_SportGamingScore.Core.Contracts.Odd;
 using E_SportGamingScore.Core.Contracts.Sports;
 using E_SportGamingScore.Core.Contracts.XML;
+using E_SportGamingScore.Core.Services.Background;
+using E_SportGamingScore.Core.Services.Bets;
 using E_SportGamingScore.Core.Services.Matches;
+using E_SportGamingScore.Core.Services.Odd;
 using E_SportGamingScore.Core.Services.Sports;
 using E_SportGamingScore.Core.Services.XML;
 using E_SportGamingScore.Infrastructure.Data;
@@ -20,12 +25,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<IXmlService, XMLService>();
-builder.Services.AddTransient<IMatchService, MatchesService>();
-builder.Services.AddTransient<ISportService, SportService>();
 builder.Services.AddScoped<ApplicationDbContext>();
-builder.Services.AddScoped<IBackgroundTaskXmlService, BackgroundTaskXmlService>();
-builder.Services.AddScoped<IBackgroundTaskMatchService, BackgroundTaskMatchesService>();
+builder.Services.AddTransient<IXmlService, XMLService>();
+builder.Services.AddTransient<ISportService, SportService>();
+builder.Services.AddTransient<IMatchService, MatchesService>();
+builder.Services.AddTransient<IBetService, BetService>();
+builder.Services.AddTransient<IOddService, OddService>();
+builder.Services.AddTransient<IBackgroundTaskXmlService, BackgroundTaskXmlService>();
+builder.Services.AddTransient<IBackgroundTaskBetService, BackgroundTaskBetService>();
+builder.Services.AddTransient<IBackgroundTaskOddService, BackgroundTaskOddService>();
+builder.Services.AddTransient<IBackgroundTaskMatchService, BackgroundTaskMatchesService>();
 
 
 var app = builder.Build();

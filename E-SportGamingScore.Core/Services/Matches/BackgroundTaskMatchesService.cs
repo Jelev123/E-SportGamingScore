@@ -1,5 +1,4 @@
-﻿using E_SportGamingScore.Core.Contracts.BackGround;
-using E_SportGamingScore.Core.Contracts.Backround;
+﻿using E_SportGamingScore.Core.Contracts.Backround;
 using E_SportGamingScore.Core.Contracts.Matches;
 
 namespace E_SportGamingScore.Core.Services.Matches
@@ -24,8 +23,8 @@ namespace E_SportGamingScore.Core.Services.Matches
             {
                 while (!linkedToken.IsCancellationRequested)
                 {
-                    var checkForChangeTask = this.matchService.CheckForChanges();
-                    await Task.Delay(5000);
+                    var checkForChangeTask = this.matchService.GenerateMatchUpdateMessages();
+                    await Task.Delay(10000);
                 }
             }, linkedToken);
         }
