@@ -1,6 +1,8 @@
-﻿using E_SportGamingScore.Core.Contracts.BackGround;
-using E_SportGamingScore.Core.Contracts.Backround;
-using E_SportGamingScore.Core.Services.Background;
+﻿using E_SportGamingScore.Core.Contracts.Backround;
+using E_SportGamingScore.Core.Services.Bets;
+using E_SportGamingScore.Core.Services.Matches;
+using E_SportGamingScore.Core.Services.Odd;
+using E_SportGamingScore.Core.Services.XML;
 using E_SportGamingScore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,26 +11,25 @@ namespace E_SportGamingScore.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IEnumerable<IBackgroundTaskService> backgroundTaskServices;
         private readonly ILogger<HomeController> _logger;
-        private readonly IBackgroundTaskXmlService backgroundTaskXmlService;
-        private readonly IBackgroundTaskMatchService backgroundCheckMatchesService;
-        private readonly IBackgroundTaskBetService backgroundTaskBetService;
-        private readonly IBackgroundTaskOddService backgroundTaskOddService;
-        public HomeController(ILogger<HomeController> logger, IBackgroundTaskXmlService backgroundTaskXmlService, IBackgroundTaskMatchService backgroundCheckMatchesService, IBackgroundTaskBetService backgroundTaskBetService, IBackgroundTaskOddService backgroundTaskOddService)
+        public HomeController(ILogger<HomeController> logger, IEnumerable<IBackgroundTaskService> backgroundTaskServices)
         {
             _logger = logger;
-            this.backgroundTaskXmlService = backgroundTaskXmlService;
-            this.backgroundCheckMatchesService = backgroundCheckMatchesService;
-            this.backgroundTaskBetService = backgroundTaskBetService;
-            this.backgroundTaskOddService = backgroundTaskOddService;
+            this.backgroundTaskServices = backgroundTaskServices;
         }
 
         public async Task<IActionResult> Index(CancellationToken stoppingToken)
         {
-            var task1 = backgroundTaskXmlService.StartBackgroundTask(stoppingToken);
-            var task2 = backgroundCheckMatchesService.StartBackgroundTask(stoppingToken);
-            var task3 = backgroundTaskBetService.StartBackgroundTask(stoppingToken);
-            var task4 = backgroundTaskOddService.StartBackgroundTask(stoppingToken);
+            var xml = backgroundTaskServices.FirstOrDefault(s => s.GetType() == typeof(BackgroundTaskXmlService));
+            var match = backgroundTaskServices.FirstOrDefault(s => s.GetType() == typeof(BackgroundTaskMatchesService));
+            var bet = backgroundTaskServices.FirstOrDefault(s => s.GetType() == typeof(BackgroundTaskBetService));
+            var odd = backgroundTaskServices.FirstOrDefault(s => s.GetType() == typeof(BackgroundTaskOddService));
+
+            var task1 = xml.StartBackgroundTask(stoppingToken);
+            var task2 = match.StartBackgroundTask(stoppingToken);
+            var task3 = bet.StartBackgroundTask(stoppingToken);
+            var task4 = odd.StartBackgroundTask(stoppingToken);
 
             await Task.WhenAll(task1, task2, task3,task4);
 

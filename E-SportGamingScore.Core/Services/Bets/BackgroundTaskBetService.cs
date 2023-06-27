@@ -3,7 +3,7 @@ using E_SportGamingScore.Core.Contracts.Bet;
 
 namespace E_SportGamingScore.Core.Services.Bets
 {
-    public class BackgroundTaskBetService : IBackgroundTaskBetService
+    public class BackgroundTaskBetService : IBackgroundTaskService
     {
         private readonly IBetService betService;
         private Task _backgroundTask;

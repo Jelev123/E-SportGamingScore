@@ -1,9 +1,9 @@
-﻿using E_SportGamingScore.Core.Contracts.BackGround;
+﻿using E_SportGamingScore.Core.Contracts.Backround;
 using E_SportGamingScore.Core.Contracts.XML;
 
 namespace E_SportGamingScore.Core.Services.XML
 {
-    public class BackgroundTaskXmlService : IBackgroundTaskXmlService
+    public class BackgroundTaskXmlService : IBackgroundTaskService
     {
         private readonly IXmlService xmlService;
         private Task _backgroundTask;

@@ -3,7 +3,7 @@ using E_SportGamingScore.Core.Contracts.Matches;
 
 namespace E_SportGamingScore.Core.Services.Matches
 {
-    public class BackgroundTaskMatchesService : IBackgroundTaskMatchService
+    public class BackgroundTaskMatchesService : IBackgroundTaskService
     {
         private readonly IMatchService matchService;
         private Task _backgroundTask;

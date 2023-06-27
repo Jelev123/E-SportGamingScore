@@ -1,9 +1,9 @@
-﻿using E_SportGamingScore.Core.Contracts.Odd;
-using E_SportGamingScore.Core.Services.Background;
+﻿using E_SportGamingScore.Core.Contracts.Backround;
+using E_SportGamingScore.Core.Contracts.Odd;
 
 namespace E_SportGamingScore.Core.Services.Odd
 {
-    public class BackgroundTaskOddService : IBackgroundTaskOddService
+    public class BackgroundTaskOddService : IBackgroundTaskService
     {
         private readonly IOddService oddService;
         private Task _backgroundTask;
