@@ -11,12 +11,10 @@ namespace E_SportGamingScore.Core.ViewModels.Matches
 
         public string MatchType { get; set; }
 
-        public bool IsMatchLive { get; set; }
-
-        public List<BetViewModel> Bets { get; set; }
-
-        public List<OdsViewModel> Ods { get; set; }
-
         public DateTime StartDate { get; set; }
+
+        public List<BetViewModel> ActiveMarkets { get; set; }
+
+        public List<BetViewModel> InactiveMarkets { get; set; }
     }
 }

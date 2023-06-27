@@ -8,6 +8,8 @@ using E_SportGamingScore.Infrastructure.Data;
 using E_SportGamingScore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+using E_SportGamingScore.Core.ViewModels;
 
 namespace E_SportGamingScore.Core.Services.Matches
 {
@@ -28,29 +30,51 @@ namespace E_SportGamingScore.Core.Services.Matches
 
         public GetMatchById GetMatchById(int matchId)
         {
-            return this.data.Matches
-                  .Where(m => m.MatchId == matchId)
-                  .Select(m => new GetMatchById
-                  {
-                      MatchId = m.MatchId,
-                      MatchName = m.MatchName,
-                      MatchType = m.MatchType,
-                      StartDate = m.StartDate,
-                      Bets = m.Bets.Select(bet => new BetViewModel
-                      {
-                          BetId = bet.BetId,
-                          BetName = bet.BetName,
-                          Odds = bet.Odds.Select(odd => new OdsViewModel
-                          {
-                              OddId = odd.OddId,
-                              OddName = odd.Name,
-                              OddValue = odd.OddValue,
-                              BetName = bet.BetName,
-                              BetId = bet.BetId,
-                              SpecialBetValue = odd.SpecialBetValue
-                          }).ToList()
-                      }).ToList(),
-                  }).FirstOrDefault();
+            var matchById = this.data.Matches
+               .Where(m => m.MatchId == matchId)
+               .Select(m => new GetMatchById
+               {
+                   MatchId = m.MatchId,
+                   MatchName = m.MatchName,
+                   MatchType = m.MatchType,
+                   StartDate = m.StartDate,
+                   ActiveMarkets = m.Bets
+                       .Where(bet => bet.IsLive)
+                       .Select(bet => new BetViewModel
+                       {
+                           BetId = bet.BetId,
+                           BetName = bet.BetName,
+                           IsBetLive = bet.IsLive,
+                           Odds = bet.Odds.Select(odd => new OdsViewModel
+                           {
+                               OddId = odd.OddId,
+                               OddName = odd.Name,
+                               OddValue = odd.OddValue,
+                               BetName = bet.BetName,
+                               BetId = bet.BetId,
+                               SpecialBetValue = odd.SpecialBetValue
+                           }).ToList()
+                       }).ToList(),
+                   InactiveMarkets = m.Bets
+                       .Where(bet => !bet.IsLive)
+                       .Select(bet => new BetViewModel
+                       {
+                           BetId = bet.BetId,
+                           BetName = bet.BetName,
+                           IsBetLive = bet.IsLive,
+                           Odds = bet.Odds.Select(odd => new OdsViewModel
+                           {
+                               OddId = odd.OddId,
+                               OddName = odd.Name,
+                               OddValue = odd.OddValue,
+                               BetName = bet.BetName,
+                               BetId = bet.BetId,
+                               SpecialBetValue = odd.SpecialBetValue
+                           }).ToList()
+                       }).ToList(),
+               }).FirstOrDefault();
+
+            return matchById;
         }
 
         public IEnumerable<AllMatchesFor24H> AllMatchesFor24H()

@@ -4,7 +4,7 @@
 
 
 
-<table class="table">
+@*<table class="table">
     <thead>
         <tr>
             <th></th>
@@ -25,6 +25,7 @@
         </tr>
         @foreach (var bet in Model.Bets)
         {
+            <td>@Model.MatchType</td>
             <tr>
                 <td colspan="4">@bet.BetName</td>
             </tr>
@@ -40,7 +41,7 @@
             }
         }
     </tbody>
-</table>
+</table>*@
 
 
 
