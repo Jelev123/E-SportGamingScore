@@ -63,7 +63,7 @@ namespace E_SportGamingScore.Core.Services.XML
                                 SportName = sportName,
                             };
 
-                            context.Sports.Add(sport);
+                           await context.Sports.AddAsync(sport);
                         }
 
                         XmlNodeList eventNodes = sportNode.SelectNodes("Event");
@@ -88,7 +88,7 @@ namespace E_SportGamingScore.Core.Services.XML
                                     SportId = sportId
                                 };
 
-                                context.Events.Add(events);
+                              await context.Events.AddAsync(events);
                             }
 
                             XmlNodeList matchNodes = eventNode.SelectNodes("Match");
@@ -112,7 +112,7 @@ namespace E_SportGamingScore.Core.Services.XML
                                         EventId = eventId
                                     };
 
-                                    context.Matches.Add(match);
+                                   await context.Matches.AddAsync(match);
                                 }
 
                                 XmlNodeList betNodes = matchNode.SelectNodes("Bet");
@@ -134,7 +134,7 @@ namespace E_SportGamingScore.Core.Services.XML
                                             MatchId = matchId,
                                         };
 
-                                        context.Bets.Add(bet);
+                                       await context.Bets.AddAsync(bet);
                                     }
 
                                     XmlNodeList oddsNodes = betNode.SelectNodes("Odd");
@@ -161,7 +161,7 @@ namespace E_SportGamingScore.Core.Services.XML
 
                                             };
 
-                                            context.Odds.Add(odd);
+                                           await context.Odds.AddAsync(odd);
                                         }
                                     }
                                 }
@@ -169,7 +169,6 @@ namespace E_SportGamingScore.Core.Services.XML
                         }
                     }
                     await context.SaveChangesAsync();
-
                 }
             }
             catch (Exception)

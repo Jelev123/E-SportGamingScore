@@ -4,6 +4,6 @@ namespace E_SportGamingScore.Core.Contracts.Sports
 {
     public interface ISportService
     {
-        IEnumerable<SportsViewModel> AllSports();
+        Task<IEnumerable<SportsViewModel>> AllSports();
     }
 }

@@ -12,3 +12,17 @@ D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.pdb
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.genruntimeconfig.cache
 D:\Projects\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\ref\E-SportGamingScore.Infrastructure.dll
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.deps.json
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.runtimeconfig.json
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.dll
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\bin\Debug\net6.0\E-SportGamingScore.Infrastructure.pdb
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.AssemblyInfo.cs
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.dll
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\refint\E-SportGamingScore.Infrastructure.dll
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.pdb
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\E-SportGamingScore.Infrastructure.genruntimeconfig.cache
+C:\Users\zzhelev\Documents\GitHub\E-SportGamingScore\E-SportGamingScore.Infrastructure\obj\Debug\net6.0\ref\E-SportGamingScore.Infrastructure.dll

@@ -12,11 +12,11 @@ namespace E_SportGamingScore.Controllers.Match
             this.matchesService = matchesService;
         }
 
-        public IActionResult AllMatchesFor24H() => this.View(matchesService.AllMatchesFor24H());
+        public async Task<IActionResult> AllMatchesFor24H() => this.View(await matchesService.AllMatchesFor24H());
         
-        public IActionResult AllMatches() => this.View(matchesService.AllMatches());
+        public async Task<IActionResult> AllMatches() => this.View(await matchesService.AllMatches());
        
-        public IActionResult GetById(int matchId) => this.View(matchesService.GetMatchById(matchId));
+        public async Task<IActionResult> GetById(int matchId) => this.View(await matchesService.GetMatchById(matchId));
         
     }
 }

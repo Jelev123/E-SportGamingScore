@@ -8,8 +8,6 @@ using E_SportGamingScore.Infrastructure.Data;
 using E_SportGamingScore.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
-using E_SportGamingScore.Core.ViewModels;
 
 namespace E_SportGamingScore.Core.Services.Matches
 {
@@ -28,9 +26,9 @@ namespace E_SportGamingScore.Core.Services.Matches
             this.serviceScopeFactory = serviceScopeFactory;
         }
 
-        public GetMatchById GetMatchById(int matchId)
+        public async Task<GetMatchById> GetMatchById(int matchId)
         {
-            var matchById = this.data.Matches
+            return await this.data.Matches
                .Where(m => m.MatchId == matchId)
                .Select(m => new GetMatchById
                {
@@ -72,21 +70,19 @@ namespace E_SportGamingScore.Core.Services.Matches
                                SpecialBetValue = odd.SpecialBetValue
                            }).ToList()
                        }).ToList(),
-               }).FirstOrDefault();
-
-            return matchById;
+               }).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<AllMatchesFor24H> AllMatchesFor24H()
+        public async Task<IEnumerable<AllMatchesFor24H>> AllMatchesFor24H()
         {
             DateTime currentDateTime = DateTime.Now;
             DateTime next24Hours = currentDateTime.AddHours(24);
 
-            var matches = data.Matches
+            var matches = await data.Matches
              .Include(match => match.Bets)
              .ThenInclude(bet => bet.Odds)
              .Where(match => match.StartDate >= currentDateTime && match.StartDate <= next24Hours)
-             .ToList();
+             .ToListAsync();
 
             var bets = matches.SelectMany(match => match.Bets).ToList();
 
@@ -128,34 +124,33 @@ namespace E_SportGamingScore.Core.Services.Matches
                 })
                 .ToList();
         }
-        public IEnumerable<AllMatchesFor24H> AllMatches()
+        public async Task<IEnumerable<AllMatchesFor24H>> AllMatches()
         {
-            var allMatches = this.data.Matches
-        .Select(match => new AllMatchesFor24H
-        {
-            MatchId = match.MatchId,
-            MatchName = match.MatchName,
-            MatchType = match.MatchType,
-            MatchStartDate = match.StartDate,
-            EventId = match.EventId,
-            Bets = match.Bets.Select(s => new BetViewModel
-            {
-                BetId = s.BetId,
-                BetName = s.BetName,
-                Odds = (List<OdsViewModel>)match.Bets
-                .SelectMany(bet => bet.Odds.Select(odd => new OdsViewModel
-                {
-                    OddId = odd.OddId,
-                    OddName = odd.Name,
-                    OddValue = odd.OddValue,
-                    BetName = bet.BetName,
-                    BetId = bet.BetId,
-                    SpecialBetValue = odd.SpecialBetValue
-                }))
-            }).ToList(),
-        });
-
-            return allMatches;
+            return await this.data.Matches
+               .Select(match => new AllMatchesFor24H
+               {
+                   MatchId = match.MatchId,
+                   MatchName = match.MatchName,
+                   MatchType = match.MatchType,
+                   MatchStartDate = match.StartDate,
+                   EventId = match.EventId,
+                   Bets = match.Bets.Select(s => new BetViewModel
+                   {
+                       BetId = s.BetId,
+                       BetName = s.BetName,
+                       Odds = (List<OdsViewModel>)match.Bets
+                       .SelectMany(bet => bet.Odds.Select(odd => new OdsViewModel
+                       {
+                           OddId = odd.OddId,
+                           OddName = odd.Name,
+                           OddValue = odd.OddValue,
+                           BetName = bet.BetName,
+                           BetId = bet.BetId,
+                           SpecialBetValue = odd.SpecialBetValue
+                       }))
+                   }).ToList(),
+               })
+               .ToListAsync();
         }
 
 
@@ -163,7 +158,7 @@ namespace E_SportGamingScore.Core.Services.Matches
         {
             var updatedMatch = new List<UpdateMatchMessages>();
             var testUpdateMatchMessages = new List<UpdateMatchesMessagesViewModel>();
-            var currentSports = this.sportService.AllSports();
+            var currentSports = await this.sportService.AllSports();
 
 
             //Тhe idea of these lists is that the method will accept information in the form of an information lists аnd this method will process it and send the information to the message table
@@ -236,6 +231,7 @@ namespace E_SportGamingScore.Core.Services.Matches
 
                 throw;
             }
+
             return (IEnumerable<UpdateMatchesMessagesViewModel>)updatedMatch;
         }
     }

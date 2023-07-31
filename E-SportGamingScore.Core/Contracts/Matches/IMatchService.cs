@@ -4,11 +4,11 @@ namespace E_SportGamingScore.Core.Contracts.Matches
 {
     public interface IMatchService
     {
-        IEnumerable<AllMatchesFor24H> AllMatches();
+        Task<IEnumerable<AllMatchesFor24H>> AllMatches();
 
-        IEnumerable<AllMatchesFor24H> AllMatchesFor24H();
+        Task<IEnumerable<AllMatchesFor24H>> AllMatchesFor24H();
 
-        GetMatchById GetMatchById(int matchId);
+        Task<GetMatchById> GetMatchById(int matchId);
 
         Task<IEnumerable<UpdateMatchesMessagesViewModel>> GenerateMatchUpdateMessages();
 
